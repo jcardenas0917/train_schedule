@@ -1,0 +1,25 @@
+.jumbotron{
+    background-color: skyblue;
+    text-align: center;
+}
+
+table, th, td {
+    border: 1px solid black;
+  }
+.display{
+    font-weight: bold;
+    font-size: small;
+}
+.card{
+    width: 100%;
+    border-style: solid;
+    border-color:skyblue;
+}
+
+.card-header{
+    background-color: skyblue;
+}
+
+#userInputForm{
+    margin-top:30px;
+}
