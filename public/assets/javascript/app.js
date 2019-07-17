@@ -15,9 +15,21 @@ $(document).ready(function () {
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   console.log(firebase);
+  // var database = firebase.database()
+  // console.log(database)
+  // var ref = database.ref('train');
+  // var data = {
+  //   name: train.trainName,
+  //   destination: train.destination,
+  //   minute_away: train.firstTrain,
+  //   frequency: train.frequency
+  // }
+  // ref.push(data);
+  
+
+
 
 // // Get a reference to the database service
-// var database = firebase.database();
 
 
 $("#submit").on("click", function (value) {
@@ -34,12 +46,21 @@ var train = {
   console.log(train.destination);
   console.log(train.firstTrain);
   console.log(train.frequency);
-});
+  writeData();
+})
 
 
 
-  
- 
 
-
+// function writeData(){
+//   var database = firebase.database;
+//   // var ref = database.ref('train');
+//   // var data = {
+//   //   name: train.trainName,
+//   //   destination: train.destination,
+//   //   minute_away: train.firstTrain,
+//   //   frequency: train.frequency
+//   // }
+//   console.log(database)
+// }
 });
