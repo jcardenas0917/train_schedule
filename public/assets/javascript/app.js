@@ -18,12 +18,12 @@ const firebaseConfig = {
   // Get a reference to the database 
   var database = firebase.database().ref("train");
   
-function writeData(name,destination,firstTrain,frequency){
+function writeData(name,destination,time,frequency){
   var ref = database.push();
   ref.set({
     name: name,
     destination: destination,
-    first_train: firstTrain,
+    first_train: time,
     frequency: frequency,
   })
   ref.on('value',displayData);
@@ -64,11 +64,11 @@ event.preventDefault();
   var frequency= $("#frequency").val();
 
 //train time calculations go here and result will sent to writeData function.
+  var militaryTime = moment(firstTrain,'HH:mm').format('hh:mm a');
 
 
 
-
-  writeData(trainName,destination,firstTrain,frequency);
+  writeData(trainName,destination,militaryTime,frequency);
 })
 
 
