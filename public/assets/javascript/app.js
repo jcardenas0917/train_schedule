@@ -2,65 +2,56 @@ $(document).ready(function () {
   console.log("ready!");
 
 // Set the configuration for your app
-// TODO: Replace with your project's config object
-  const firebaseConfig = {
-    apiKey: "AIzaSyCZuq4ogqQbBDn3XRjmOLL4eDN-zvoWvaA",
-    authDomain: "train-schedule-ucf.firebaseapp.com",
-    databaseURL: "https://train-schedule-ucf.firebaseio.com",
-    projectId: "train-schedule-ucf",
-    storageBucket: "train-schedule-ucf.appspot.com",
-    messagingSenderId: "174634230088",
-    appId: "1:174634230088:web:b8c47afbb6c93d07"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCZuq4ogqQbBDn3XRjmOLL4eDN-zvoWvaA",
+  authDomain: "train-schedule-ucf.firebaseapp.com",
+  databaseURL: "https://train-schedule-ucf.firebaseio.com",
+  projectId: "train-schedule-ucf",
+  storageBucket: "train-schedule-ucf.appspot.com",
+  messagingSenderId: "174634230088",
+  appId: "1:174634230088:web:b8c47afbb6c93d07"
+};
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   console.log(firebase);
-  // var database = firebase.database()
-  // console.log(database)
-  // var ref = database.ref('train');
-  // var data = {
-  //   name: train.trainName,
-  //   destination: train.destination,
-  //   minute_away: train.firstTrain,
-  //   frequency: train.frequency
-  // }
-  // ref.push(data);
+ 
+  // Get a reference to the database service
+  var database = firebase.database().ref("train");
   
-
-
-
+  
 // // Get a reference to the database service
+function writeData(name,destination,firstTrain,frequency){
+  var ref = database.push();
+  ref.set({
+    name: name,
+    destination: destination,
+    first_train: firstTrain,
+    frequency: frequency,
+  })
+  ref.on('value',displayData);
+}
 
+function displayData(ref){
+  var train = ref.val();
+  // var keys = Object.keys(train);
+  console.log(train.destination)
+  console.log(train.first_train)
+  console.log(train.frequency)
+  console.log(train.name);
+}
 
 $("#submit").on("click", function (value) {
 event.preventDefault();
 //Set input variables from user
-var train = {
-  trainName: $("#tname").val(),
-  destination: $("#destination").val(),
-  firstTrain: $("#firstTrain").val(),
-  frequency: $("#frequency").val(),
-}
-  //console loging for debuging
-  console.log(train.trainName);
-  console.log(train.destination);
-  console.log(train.firstTrain);
-  console.log(train.frequency);
-  writeData();
+
+  var trainName= $("#tname").val();
+  var destination= $("#destination").val();
+  var firstTrain= $("#firstTrain").val();
+  var frequency= $("#frequency").val();
+
+
+  writeData(trainName,destination,firstTrain,frequency);
 })
 
 
-
-
-// function writeData(){
-//   var database = firebase.database;
-//   // var ref = database.ref('train');
-//   // var data = {
-//   //   name: train.trainName,
-//   //   destination: train.destination,
-//   //   minute_away: train.firstTrain,
-//   //   frequency: train.frequency
-//   // }
-//   console.log(database)
-// }
 });
