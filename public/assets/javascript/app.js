@@ -45,7 +45,7 @@ function displayData(ref){
   var trainDest = $("<th>").text(train.destination);
   var trainFreq = $("<th>").text(train.frequency);
   var trainNext = $("<th>").text(train.first_train);
-  var minAway = "TBD";
+  var minAway = $("<th>").text("TBD");
 
   // Append the newly created table data to the table row
   tRow.append(trainName, trainDest, trainFreq,trainNext,minAway);
@@ -62,6 +62,10 @@ event.preventDefault();
   var destination= $("#destination").val();
   var firstTrain= $("#firstTrain").val();
   var frequency= $("#frequency").val();
+
+//train time calculations go here and result will sent to writeData function.
+
+
 
 
   writeData(trainName,destination,firstTrain,frequency);
