@@ -15,11 +15,9 @@ const firebaseConfig = {
   firebase.initializeApp(firebaseConfig);
   console.log(firebase);
  
-  // Get a reference to the database service
+  // Get a reference to the database 
   var database = firebase.database().ref("train");
   
-  
-// // Get a reference to the database service
 function writeData(name,destination,firstTrain,frequency){
   var ref = database.push();
   ref.set({
@@ -33,11 +31,27 @@ function writeData(name,destination,firstTrain,frequency){
 
 function displayData(ref){
   var train = ref.val();
-  // var keys = Object.keys(train);
+
+  //console log for debugging
   console.log(train.destination)
   console.log(train.first_train)
   console.log(train.frequency)
   console.log(train.name);
+
+  
+  var tBody = $("#trainDisplay");
+  var tRow = $("<tr>");
+  var trainName = $("<th>").text(train.name);
+  var trainDest = $("<th>").text(train.destination);
+  var trainFreq = $("<th>").text(train.frequency);
+  var trainNext = $("<th>").text(train.first_train);
+  var minAway = "TBD";
+
+  // Append the newly created table data to the table row
+  tRow.append(trainName, trainDest, trainFreq,trainNext,minAway);
+  // Append the table row to the table body
+  tBody.append(tRow);
+  
 }
 
 $("#submit").on("click", function (value) {

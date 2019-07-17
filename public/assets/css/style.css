@@ -7,7 +7,6 @@ table, th, td {
     border: 1px solid black;
   }
 .display{
-    font-weight: bold;
     font-size: small;
 }
 .card{
@@ -22,4 +21,7 @@ table, th, td {
 
 #userInputForm{
     margin-top:30px;
+}
+.title{
+    font-weight: bold;
 }
