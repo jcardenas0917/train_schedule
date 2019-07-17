@@ -22,18 +22,18 @@ const firebaseConfig = {
   console.log(getTime)
 
 function writeData(name,destination,time,frequency){
-  var ref = database.push();
-  ref.set({
+  var data = database.push();
+  data.set({
     name: name,
     destination: destination,
     first_train: time,
     frequency: frequency,
   })
-  ref.on('value',displayData);
+  data.on('value',displayData);
 }
 
-function displayData(ref){
-  var train = ref.val();
+function displayData(data){
+  var train = data.val();
 
   //console log for debugging
   console.log(train.destination)
