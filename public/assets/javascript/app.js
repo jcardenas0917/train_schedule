@@ -18,6 +18,9 @@ const firebaseConfig = {
   // Get a reference to the database 
   var database = firebase.database().ref("train");
   
+  var getTime = moment().format('h:mm:ss a');
+  console.log(getTime)
+
 function writeData(name,destination,time,frequency){
   var ref = database.push();
   ref.set({
