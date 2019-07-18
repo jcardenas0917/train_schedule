@@ -18,8 +18,10 @@ const firebaseConfig = {
   // Get a reference to the database 
   var database = firebase.database().ref("train");
   
-  var getTime = moment().format('h:mm:ss a');
-  console.log(getTime)
+ 
+  var currentTime = moment().format('h:mm A');
+  $("#currentTime").text(currentTime);
+  console.log(currentTime);
 
 function writeData(name,destination,time,frequency){
     var data = database.push({ 
@@ -36,9 +38,9 @@ function displayData(snapshot){
   var train = snapshot.val();
 
   //console log for debugging
-  console.log(train.destination)
-  console.log(train.first_train)
-  console.log(train.frequency)
+  console.log(train.destination);
+  console.log(train.first_train);
+  console.log(train.frequency);
   console.log(train.name);
 
   
@@ -46,7 +48,7 @@ function displayData(snapshot){
   var tRow = $("<tr>");
   var trainName = $("<th>").text(train.name);
   var trainDest = $("<th>").text(train.destination);
-  var trainFreq = $("<th>").text(train.frequency);
+  var trainFreq = $("<th>").text(train.frequency + "mm");
   var trainNext = $("<th>").text(train.first_train);
   var minAway = $("<th>").text("TBD");
 
@@ -67,12 +69,15 @@ event.preventDefault();
   var frequency= $("#frequency").val();
 
 //train time calculations go here and result will sent to writeData function.
-  var militaryTime = moment(firstTrain,'HH:mm').format('hh:mm a');
+  var militaryTime = moment(firstTrain,'HH:mm').format('hh:mm a'); 
 
+  var frequencyTime = moment(frequency,'mm').format(':mm');
 
+  console.log(frequencyTime);
 
-  writeData(trainName,destination,militaryTime,frequency);
+  writeData(trainName,destination,militaryTime,frequencyTime);
 })
+
 
 
 });
