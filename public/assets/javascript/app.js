@@ -22,13 +22,12 @@ const firebaseConfig = {
   console.log(getTime)
 
 function writeData(name,destination,time,frequency){
-  var data = database.push();
-  data.set({
+    var data = database.push({ 
     name: name,
     destination: destination,
     first_train: time,
     frequency: frequency,
-  })
+  });
   data.on('value',displayData);
 }
 
