@@ -28,10 +28,13 @@ function writeData(name,destination,time,frequency){
     first_train: time,
     frequency: frequency,
   });
-  data.on('value',displayData);
+  // data.on('value',displayData);
+  displayData(data)
 }
 
 function displayData(data){
+  data.on('value');
+
   var train = data.val();
 
   //console log for debugging
