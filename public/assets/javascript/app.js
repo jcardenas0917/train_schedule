@@ -17,9 +17,27 @@ const firebaseConfig = {
   // Get a reference to the database 
   var database = firebase.database().ref("train");
   console.log(database);
+
+ 
+
   database.on("child_added", function (snapshot) {
     var train = snapshot.val()
     console.log(train);
+
+    var name = train.name;
+    var dest = train.destination;
+    var freq = train.frequency
+    var next = train.next_train;
+    var away = train.min_away;
+    
+    console.log(name);
+    console.log(dest);
+    console.log(freq);
+    console.log(next);
+    console.log(away);
+
+
+
     var tBody = $("#trainDisplay");
     var tRow = $("<tr>");
     var trainName = $("<th>").text(train.name);
@@ -32,6 +50,7 @@ const firebaseConfig = {
     tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
     // Append the table row to the table body
     tBody.append(tRow);
+
   });
  
   var currentTimeDisplay = moment().format('hh:mm A');
@@ -46,34 +65,8 @@ function writeData(name,destination,next,frequency,away){
     frequency: frequency,
     min_away: away
   });
-  // data.on('value',displayData);
+
 }
-
-// function displayData(snapshot){
-  
-//   var train = snapshot.val();
-
-//   //console log for debugging
-//   console.log(train.destination);
-//   console.log(train.first_train);
-//   console.log(train.frequency);
-//   console.log(train.name);
-
-  
-//   var tBody = $("#trainDisplay");
-//   var tRow = $("<tr>");
-//   var trainName = $("<th>").text(train.name);
-//   var trainDest = $("<th>").text(train.destination);
-//   var trainFreq = $("<th>").text(train.frequency + "mm");
-//   var trainNext = $("<th>").text(train.first_train);
-//   var minAway = $("<th>").text("TBD");
-
-//   // Append the newly created table data to the table row
-//   tRow.append(trainName, trainDest, trainFreq,trainNext,minAway);
-//   // Append the table row to the table body
-//   tBody.append(tRow);
-  
-// }
 
 $("#submit").on("click", function (event) {
 event.preventDefault();
@@ -86,43 +79,35 @@ event.preventDefault();
 
 //train time calculations go here and result will sent to writeData function.
 
+var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
+    console.log(firstTime);
 
-  var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
-  console.log(firstTime);
+    // Current Time
+    var currentTime = moment();
+    console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
 
-  // Current Time
-  var currentTime = moment();
-  console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
+    // Difference between the times
+    var diffTime = moment().diff(moment(firstTime), "minutes");
+    console.log("DIFFERENCE IN TIME: " + diffTime);
 
-  // Difference between the times
-  var diffTime = moment().diff(moment(firstTime), "minutes");
-  console.log("DIFFERENCE IN TIME: " + diffTime);
+    // Time apart (remainder)
+    var tRemainder = diffTime % frequency;
+    console.log(tRemainder);
 
-  // Time apart (remainder)
-  var tRemainder = diffTime % frequency;
-  console.log(tRemainder);
+    // Minute Until Train
+    var nextTrainMin = frequency - tRemainder;
+    console.log("MINUTES TILL TRAIN: " + nextTrainMin);
 
-  // Minute Until Train
-  var nextTrainMin = frequency - tRemainder;
-  console.log("MINUTES TILL TRAIN: " + nextTrainMin);
+    // Next Train
+    var nextTrain = moment().add(nextTrainMin, "minutes").format("hh:mm A");
+    console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
-  // Next Train
-  var nextTrain = moment().add(nextTrainMin, "minutes").format("hh:mm A");
-  console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+    var frequencyTime = moment(frequency, 'mm').format(':mm');
 
-  var frequencyTime = moment(frequency, 'mm').format(':mm');
-  
-  // var firstTrainTime = moment(firstTrain,'HH:mm').format('hh:mm a'); 
-  // console.log(firstTrainTime);
-  
-  
-  // // var nextTrainTime = moment(firstTrain).add(2,'hours');
-
-  // console.log(frequencyTime);
 
   writeData(trainName, destination, nextTrain, frequencyTime,nextTrainMin );
   
 })
-  
+
 
 });
