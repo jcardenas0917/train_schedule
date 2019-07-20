@@ -29,9 +29,7 @@ $(document).ready(function () {
         var destination = train.destination;
         var firstTrain = train.first_train;
         var frequency = train.frequency;
-        var frequencyTime = train.frequency_time;
-
-
+        
         var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
 
         // Current Time
@@ -56,7 +54,7 @@ $(document).ready(function () {
         var tRow = $("<tr>");
         var trainName = $("<th>").text(name);
         var trainDest = $("<th>").text(destination);
-        var trainFreq = $("<th>").text("Every " + frequencyTime + " minutes");
+        var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
         var trainNext = $("<th>").text(nextArrival);
         var minAway = $("<th>").text(nextTrainMinDisplay);
 
@@ -81,46 +79,12 @@ $(document).ready(function () {
         var firstTrain = $("#firstTrain").val();
         var frequency = $("#frequency").val();
 
-
-        //train time calculations go here and result will sent to writeData function.
-
-        var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
-        console.log("test" + firstTime);
-
-        // Current Time
-        var currentTime = moment().format('hh:mm A');
-
-        console.log(currentTime);
-
-        // Difference between the times
-        var diffTime = moment().diff(moment(firstTime), "minutes");
-        
-
-        // Time apart (remainder)
-        var tRemainder = diffTime % frequency;
-        console.log(tRemainder);
-
-        // Minute Until Train
-        var nextTrainMin = frequency - tRemainder;
-        
-
-        // Next Train
-        var nextTrain = moment().add(nextTrainMin, "minutes").format("hh:mm A");
-       
-        //convert frequency to minutes
-        var frequencyTime = moment(frequency, 'mm').format(':mm');
-
-        // push all data needed to the datebase
         database.push({
             name: trainName,
             destination: destination,
             first_train: firstTrain,
             frequency: frequency,
-            current_time: currentTime,
-            next_train_min: nextTrainMin,
-            next_train: nextTrain,
-            frequency_time: frequencyTime
-
+        
         });
 
         trainName = "";
