@@ -87,11 +87,6 @@ $(document).ready(function () {
         
         });
 
-        trainName = "";
-        destination = "";
-        firstTrain = "";
-        frequency = "";
-
     })
 
 
