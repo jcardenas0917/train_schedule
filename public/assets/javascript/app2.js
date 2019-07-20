@@ -78,7 +78,7 @@ $(document).ready(function () {
         var destination = $("#destination").val();
         var firstTrain = $("#firstTrain").val();
         var frequency = $("#frequency").val();
-
+        $("input").val("");
         database.push({
             name: trainName,
             destination: destination,
