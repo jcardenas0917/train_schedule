@@ -98,5 +98,3 @@ If you have any questions about this project or the material we have covered, pl
 
 **Good Luck!**
 
-
-https://github.com/philipstubbs13/Firebase-Train-Scheduler/blob/master/public/assets/javascript/logic2.js

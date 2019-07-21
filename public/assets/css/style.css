@@ -25,3 +25,7 @@ table, th, tr {
 .title{
     font-weight: bold;
 }
+#remove{
+    cursor: pointer;
+    background-color:red;
+}

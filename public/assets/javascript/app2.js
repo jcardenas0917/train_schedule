@@ -1,7 +1,6 @@
 $(document).ready(function () {
     console.log("ready!");
 
-
     var rowId = 0;
 
     // Set the configuration for your app
@@ -17,13 +16,12 @@ $(document).ready(function () {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    // Get a reference to the database 
-    var database = firebase.database().ref("train");
+    // Get a reference to the database
+    var database = firebase.database();
     console.log(database);
 
-    
-    database.on("child_added", function (snapshot) {
-        var train = snapshot.val()
+    database.ref().on("child_added", function (snapshot) {
+        var train = snapshot.val();
         console.log(train);
 
         //Get Data from Firebase
@@ -31,16 +29,14 @@ $(document).ready(function () {
         var destination = train.destination;
         var firstTrain = train.first_train;
         var frequency = train.frequency;
-        
+
         var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
 
         // Current Time
-       
-        var currentTimeLive = moment().format('hh:mm A');
+
+        var currentTimeLive = moment().format("hh:mm A");
 
         console.log(currentTimeLive);
-        
-
 
         // Difference between the times
         var diffTime = moment().diff(moment(firstTime), "minutes");
@@ -52,40 +48,68 @@ $(document).ready(function () {
         var nextTrainMinDisplay = frequency - tRemainder;
 
         // Next Train
-        var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
+        var nextArrival = moment()
+            .add(nextTrainMinDisplay, "minutes")
+            .format("hh:mm A");
         //Display to HTML
         var tBody = $("#trainDisplay");
-        var tRow = $("<tr>").attr("id",rowId);
+        var tRow = $("<tr>").attr("id", rowId);
+        var remove = $("<button>").attr("id", "remove").text("X");
         var trainName = $("<th>").text(name);
         var trainDest = $("<th>").text(destination);
         var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
         var trainNext = $("<th>").text(nextArrival);
-        var minAway = $("<th>").text(nextTrainMinDisplay)
+        var minAway = $("<th>").text(nextTrainMinDisplay);
         rowId++;
-        
 
         // Append the newly created table data to the table row
-        tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
+        tRow.append(trainName, trainDest, trainFreq, trainNext, minAway, remove);
         // Append the table row to the table body
         tBody.append(tRow);
         displayRealTime();
-        
+
+
+
+        $("#remove").on("click", function (event) {
+            event.preventDefault();
+            console.log("clicked");
+            var ref = database.ref();
+            ref.on("child_removed", function (data) {
+                console.log(data.val());
+                var id = data.val();
+                var keys = Object.keys(id);
+                console.log(keys);
+                for (var i = 0; i < keys.length; i++) {
+                    var k = keys[i];
+                    console.log(k);
+                    keys[i].remove();
+                }
+            });
+        });
     });
-     
-    //Show current time
-    
+
+    // function gotData(data){
+    //     // console.log(data.val());
+    //     // var id = data.val();
+    //     // var keys = Object.keys(id);
+    //     // console.log(keys);
+    //     // for (var i = 0; i <keys.length; i++){
+    //     //     // var k = keys[i];
+    //     //     // console.log(k);
+    //     //     keys[i].remove();
+    //     }
+
+    //Display current time
     function displayRealTime() {
         setInterval(function () {
-          $('#currentTime').html(moment().format('hh:mm A'))
+            $("#currentTime").html(moment().format("hh:mm A"));
 
-            //at the minute mark comparison 
-            if (moment().format("ss")==="00"){
+            //at the minute mark comparison
+            if (moment().format("ss") === "00") {
                 // location.reload(true);
 
                 console.log("new minute passe " + moment().format("hh:mm:ss"));
             }
-
-
         }, 1000);
     }
     displayRealTime();
@@ -106,15 +130,11 @@ $(document).ready(function () {
         $("input").val("");
 
         //push values to Firebase DB
-        database.push({
+        database.ref().push({
             name: trainName,
             destination: destination,
             first_train: firstTrain,
-            frequency: frequency,
-        
+            frequency: frequency
         });
-
-    })
-
-
+    });
 });
