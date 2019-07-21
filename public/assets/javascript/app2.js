@@ -68,6 +68,7 @@ $(document).ready(function () {
         tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
         // Append the table row to the table body
         tBody.append(tRow);
+        displayRealTime();
         
     });
      
@@ -79,7 +80,7 @@ $(document).ready(function () {
 
             //at the minute mark comparison 
             if (moment().format("ss")==="00"){
-            
+                // location.reload(true);
 
                 console.log("new minute passe " + moment().format("hh:mm:ss"));
             }
