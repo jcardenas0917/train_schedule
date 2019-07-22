@@ -15,55 +15,55 @@ $(document).ready(function () {
   firebase.initializeApp(firebaseConfig);
 
   // Get a reference to the database 
-  var database = firebase.database().ref("train");
-  console.log(database);
+  var database = firebase.database();
+    console.log(database);
+
+    database.ref().on("child_added", function (snapshot) {
+    var train = snapshot.val();
+        console.log(train);
+
+        //Get Data from Firebase
+        var name = train.name;
+        var destination = train.destination;
+        var firstTrain = train.first_train;
+        var frequency = train.frequency;
 
 
-  database.on("child_added", function (snapshot) {
-    var train = snapshot.val()
-    console.log(train);
+        var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
 
+        // Current Time
 
+        var currentTimeLive = moment().format("hh:mm A");
 
-    //Get Data from Firebase
-    var name = train.name;
-    var destination = train.destination;
-    var firstTrain = train.first_train;
-    var frequency = train.frequency;
+        console.log(currentTimeLive);
 
-    var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
+        // Difference between the times
+        var diffTime = moment().diff(moment(firstTime), "minutes");
 
-    // Current Time
+        // Time apart (remainder)
+        var tRemainder = diffTime % frequency;
 
-    var currentTimeLive = moment().format('hh:mm A');
+        // Minute Until Train
+        var nextTrainMinDisplay = frequency - tRemainder;
 
-    console.log(currentTimeLive);
+        // Next Train
+        var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
+        //Display to HTML
+        var tBody = $("#trainDisplay");
+        var tRow = $("<tr>");
+        // var remove = $("<button>").attr("id", k).text("X");
+        var trainName = $("<th>").text(name);
+        var trainDest = $("<th>").text(destination);
+        var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
+        var trainNext = $("<th>").text(nextArrival);
+        var minAway = $("<th>").text(nextTrainMinDisplay);
+        
 
-    // Difference between the times
-    var diffTime = moment().diff(moment(firstTime), "minutes");
-
-    // Time apart (remainder)
-    var tRemainder = diffTime % frequency;
-
-    // Minute Until Train
-    var nextTrainMinDisplay = frequency - tRemainder;
-
-    // Next Train
-    var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
-    //Display to HTML
-    var tBody = $("#trainDisplay");
-    var tRow = $("<tr>");
-    var trainName = $("<th>").text(name);
-    var trainDest = $("<th>").text(destination);
-    var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
-    var trainNext = $("<th>").text(nextArrival);
-    var minAway = $("<th>").text(nextTrainMinDisplay)
-
-
-    // Append the newly created table data to the table row
-    tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
-    // Append the table row to the table body
-    tBody.append(tRow);
+        // Append the newly created table data to the table row
+        tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
+        // Append the table row to the table body
+        tBody.append(tRow);
+        displayRealTime();
 
   });
 
@@ -92,11 +92,11 @@ $(document).ready(function () {
     $("input").val("");
 
     //push values to Firebase DB
-    database.push({
+    database.ref().push({
       name: trainName,
       destination: destination,
       first_train: firstTrain,
-      frequency: frequency,
+      frequency: frequency
 
     });
 

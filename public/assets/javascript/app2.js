@@ -2,6 +2,7 @@ $(document).ready(function () {
     console.log("ready!");
 
     var rowId = 0;
+    
 
     // Set the configuration for your app
     const firebaseConfig = {
@@ -16,9 +17,39 @@ $(document).ready(function () {
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
+    //====================================================
     // Get a reference to the database
     var database = firebase.database();
     console.log(database);
+
+    //====================================================
+    var ref = database.ref();
+    ref.on("value", function (data) {
+        console.log(data.val());
+        var id = data.val();
+        var keys = Object.keys(id);
+        console.log(keys);
+        for (var i = 0; i < keys.length; i++) {
+            var k = keys[i];
+            console.log(k);
+            // keys[i].remove();
+                var tBody = $("#trainDisplay");
+            var tRow = $("<tr>").attr("id", rowId);
+            remove = $("<button>").attr("id", k).text("X");
+
+            tRow.append(remove);
+            // Append the table row to the table body
+            tBody.append(tRow);
+            
+        }
+
+    });
+
+
+//==============================================================================
+
+
+
 
     database.ref().on("child_added", function (snapshot) {
         var train = snapshot.val();
@@ -29,6 +60,7 @@ $(document).ready(function () {
         var destination = train.destination;
         var firstTrain = train.first_train;
         var frequency = train.frequency;
+
 
         var firstTime = moment(firstTrain, "hh:mm").subtract(1, "years");
 
@@ -48,13 +80,11 @@ $(document).ready(function () {
         var nextTrainMinDisplay = frequency - tRemainder;
 
         // Next Train
-        var nextArrival = moment()
-            .add(nextTrainMinDisplay, "minutes")
-            .format("hh:mm A");
+        var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
         //Display to HTML
         var tBody = $("#trainDisplay");
         var tRow = $("<tr>").attr("id", rowId);
-        var remove = $("<button>").attr("id", "remove").text("X");
+        // var remove = $("<button>").attr("id", k).text("X");
         var trainName = $("<th>").text(name);
         var trainDest = $("<th>").text(destination);
         var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
@@ -63,29 +93,12 @@ $(document).ready(function () {
         rowId++;
 
         // Append the newly created table data to the table row
-        tRow.append(trainName, trainDest, trainFreq, trainNext, minAway, remove);
+        tRow.append(trainName, trainDest, trainFreq, trainNext, minAway);
         // Append the table row to the table body
         tBody.append(tRow);
         displayRealTime();
 
 
-
-        $("#remove").on("click", function (event) {
-            event.preventDefault();
-            console.log("clicked");
-            var ref = database.ref();
-            ref.on("child_removed", function (data) {
-                console.log(data.val());
-                var id = data.val();
-                var keys = Object.keys(id);
-                console.log(keys);
-                for (var i = 0; i < keys.length; i++) {
-                    var k = keys[i];
-                    console.log(k);
-                    keys[i].remove();
-                }
-            });
-        });
     });
 
     // function gotData(data){
@@ -99,6 +112,8 @@ $(document).ready(function () {
     //     //     keys[i].remove();
     //     }
 
+
+ 
     //Display current time
     function displayRealTime() {
         setInterval(function () {
