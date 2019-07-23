@@ -59,17 +59,18 @@ $(document).ready(function () {
       var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
       //Display to HTML
       var tBody = $("#trainDisplay");
-      var tRow = $("<tr>").attr("id", rowId);
-      var remove = $("<button>").attr("id", key).text("X");
-      var trainName = $("<th>").text(name);
-      var trainDest = $("<th>").text(destination);
-      var trainFreq = $("<th>").text("Every :" + frequency + " minutes");
-      var trainNext = $("<th>").text(nextArrival);
-      var minAway = $("<th>").text(nextTrainMinDisplay);
+        var tRow = $("<tr>");
+        var remove = $("<button>").attr("id", key).attr("class","material-icons").text("delete");
+        var trainName = $("<td>").text(name);
+        var trainDest = $("<td>").text(destination);
+        var trainFreq = $("<td>").text("Every :" + frequency + " minutes");
+        var trainNext = $("<td>").text(nextArrival).attr("class", "next");
+        var minAway = $("<td>").text(nextTrainMinDisplay).attr("class", "minutes");
+        var refresh = $("<button>").attr("class","material-icons refresh").text("refresh");
       rowId++;
 
       // Append the newly created table data to the table row
-      tRow.append(trainName, trainDest, trainFreq, trainNext, minAway,remove);
+      tRow.append(trainName, trainDest, trainFreq, trainNext, minAway,remove,refresh);
       // Append the table row to the table body
       tBody.append(tRow);
       displayRealTime();
@@ -83,6 +84,11 @@ $(document).ready(function () {
           }
           
       });
+
+      refresh.on("click", function(event){
+          event.preventDefault();
+          location.reload();
+      })
 
   });
 

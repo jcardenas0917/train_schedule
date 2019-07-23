@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
 </head>
 
@@ -18,11 +19,12 @@
             <div class="col-lg-10">
                 <div class="jumbotron">
                     <h1 class="display-4">The Best Train Schedule App!</h1>
+                    <p class = "material-icons">train train train</p>
                     <p class="lead">Please use this form to get up to date train schedules</p>
                 </div>
                 <div class="row">
                     <div class="col-lg-3">
-                        <h2 id = "currentTime"></h2>
+                        <h2 id="currentTime"></h2>
                     </div>
                 </div>
                 <div class="card">
@@ -30,14 +32,15 @@
                         Current Train Schedule
                     </div>
                     <table style="width:100%" id="trainDisplay">
-                        <tr id = "trDisplay">
-                            <th class = "title">Train Name</th>
-                            <th class = "title">Destination</th>
-                            <th class = "title">Frequency</th>
-                            <th class = "title">Next Arrival</th>
-                            <th class = "title">Minutes Away</th>
+                        <tr id="trDisplay">
+                            <th class="title">Train Name</th>
+                            <th class="title">Destination</th>
+                            <th class="title">Frequency</th>
+                            <th class="title">Next Arrival</th>
+                            <th class="title">Minutes Away</th>
+                            <th class="title">Remove/Refresh</th>
                         </tr>
-                
+
                     </table>
 
                 </div>
@@ -73,15 +76,16 @@
         </div>
     </div>
 
-     <!-- The core Firebase JS SDK is always required and must be listed first -->
-     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
-     <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
-    
-     <!-- TODO: Add SDKs for Firebase products that you want to use
+    <!-- The core Firebase JS SDK is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.3.0/firebase-database.js"></script>
+
+    <!-- TODO: Add SDKs for Firebase products that you want to use
           https://firebase.google.com/docs/web/setup#config-web-app -->
-        <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/momentjs/2.12.0/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script type="text/javascript" src="./assets/javascript/app.js"></script>
-    
-  </body>
+
+</body>
+
 </html>
