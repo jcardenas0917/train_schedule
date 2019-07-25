@@ -3,6 +3,10 @@
     text-align: center;
 }
 
+#schedule{
+    width: 100%;
+}
+
 table, td, tr {
     border: 1px solid black;
   }

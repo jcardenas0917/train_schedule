@@ -58,7 +58,7 @@ $(document).ready(function () {
       // Next Train
       var nextArrival = moment().add(nextTrainMinDisplay, "minutes").format("hh:mm A");
       //Display to HTML
-      var tBody = $("#trainDisplay");
+      var tBody = $("#trainDisplay").attr("id","schedule");
         var tRow = $("<tr>");
         var remove = $("<button>").attr("id", key).attr("class","material-icons").text("delete");
         var trainName = $("<td>").text(name);
